@@ -79,10 +79,8 @@ bool AlipayOrder::connectDB(const char* host, const char* user,
     return true;
 }
 
-bool AlipayOrder::createOrder() {
+bool AlipayOrder::createOrder(AlipayTransaction& transaction) {
     if (!conn) return false;
-    
-    mysql_query(conn, "START TRANSACTION");
     
     try {
         // 1. 插入订单基本信息
@@ -191,11 +189,9 @@ bool AlipayOrder::createOrder() {
             // ... 执行扩展参数插入 ...
         }
         
-        mysql_query(conn, "COMMIT");
         return true;
     }
     catch (const std::exception& e) {
-        mysql_query(conn, "ROLLBACK");
         return false;
     }
 }
@@ -441,10 +437,6 @@ bool AlipayOrder::updateOrderStatus(const std::string& outTradeNo,
             
         MYSQL_STMT* stmt = mysql_stmt_init(conn);
         if (!stmt) throw std::runtime_error("mysql_stmt_init failed");
-        
-        if (mysql_stmt_prepare(stmt, query.c_str(), query.length())) {
-            throw std::runtime_error(mysql_stmt_error(stmt));
-        }
         
         // TODO: 完成参数绑定和执行
         

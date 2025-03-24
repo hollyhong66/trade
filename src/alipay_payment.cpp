@@ -31,7 +31,8 @@ bool AlipayPayment::connectDB(const char* host, const char* user,
     return true;
 }
 
-bool AlipayPayment::createPayment(const std::string& outTradeNo) {
+bool AlipayPayment::createPayment(const std::string& outTradeNo, 
+                                 AlipayTransaction& transaction) {
     if (!conn) return false;
     
     try {
