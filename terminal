@@ -1,0 +1,19 @@
+"""
+        self.write_file(self.base_path / "setup" / "setup.md", content)
+
+    def generate_all(self):
+        """生成所有文档"""
+        self.create_directories()
+        self.generate_readme()
+        self.generate_api_doc()
+        self.generate_database_doc()
+        self.generate_implementation_doc()
+        self.generate_setup_doc()
+        print("Documentation generation completed!")
+
+if __name__ == "__main__":
+    generator = DocGenerator()
+    generator.generate_all()
+
+
+
